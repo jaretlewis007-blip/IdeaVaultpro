@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { db } from "../../../firebase/config";
-import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../../../firebase/config";  // 👈 FIXED IMPORT
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
-export default function ManageJob({ params }) {
+export default function ManageJob({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { id } = params;
 
-  const [job, setJob] = useState(null);
+  const [job, setJob] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchJob = async () =>
-  {
+  const fetchJob = async () => {
     try {
       const jobRef = doc(db, "jobs", id);
       const snapshot = await getDoc(jobRef);
@@ -84,4 +83,3 @@ export default function ManageJob({ params }) {
     </div>
   );
 }
-
