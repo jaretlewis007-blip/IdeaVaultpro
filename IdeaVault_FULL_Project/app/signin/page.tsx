@@ -3,45 +3,56 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/config";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function SignInPage() {
+export default function SignIn() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async () => {
-    await signInWithEmailAndPassword(auth, email, password);
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+      alert(error.message);
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20">
-      <h1 className="text-3xl font-bold mb-6 text-gold">Sign In</h1>
+    <div className="p-6 flex flex-col items-center text-white">
+      <h1 className="text-3xl mb-4 font-bold">Sign In</h1>
 
-      <input
-        className="w-full p-3 bg-white/10 rounded mb-4"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <form onSubmit={handleSignIn} className="flex flex-col space-y-3 w-full max-w-sm">
+        <input
+          type="email"
+          placeholder="Email"
+          className="p-2 rounded bg-gray-800 border border-gray-700"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        className="w-full p-3 bg-white/10 rounded mb-4"
-        placeholder="Password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          className="p-2 rounded bg-gray-800 border border-gray-700"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button
-        onClick={login}
-        className="w-full p-3 bg-gold text-black rounded font-bold"
-      >
-        Login
-      </button>
+        <button
+          type="submit"
+          className="bg-yellow-500 py-2 rounded font-bold hover:bg-yellow-600"
+        >
+          Sign In
+        </button>
+      </form>
 
-      <p className="mt-4 text-center text-sm">
+      <p className="mt-3 text-gray-300">
         Don’t have an account?{" "}
-        <Link href="/signup" className="text-gold underline">
-          Sign up
-        </Link>
+        <a href="/signup" className="text-yellow-400 underline">Sign up</a>
       </p>
     </div>
   );
