@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";   // 👈 FIXED IMPORT
 import { useRouter } from "next/navigation";
-import { db } from "@/firebase/config";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 export default function SignUp() {
@@ -12,13 +11,11 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Create user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Save to Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         email,
         role: "creator",
@@ -26,7 +23,7 @@ export default function SignUp() {
       });
 
       router.push("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Sign-up failed:", error);
       alert(error.message);
     }
@@ -68,4 +65,3 @@ export default function SignUp() {
     </div>
   );
 }
-
