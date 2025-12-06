@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { db } from "@/firebase/config";
+import { db } from "../../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 
@@ -60,3 +60,4 @@ export default function FindJobs() {
     </div>
   );
 }
+
