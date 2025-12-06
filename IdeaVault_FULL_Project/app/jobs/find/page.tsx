@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { db } from "../../../firebase/config";
+import { db } from "../../../firebase/config";   // 👈 FIXED IMPORT
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 
 export default function FindJobs() {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchJobs = async () => {
@@ -60,4 +60,3 @@ export default function FindJobs() {
     </div>
   );
 }
-
