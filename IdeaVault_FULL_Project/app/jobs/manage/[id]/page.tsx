@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { db } from "@/firebase/config";
+import { db } from "../../../firebase/config";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
@@ -84,3 +84,4 @@ export default function ManageJob({ params }) {
     </div>
   );
 }
+
