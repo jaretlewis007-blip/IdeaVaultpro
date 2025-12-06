@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth } from "../../firebase/config";  // 👈 FIXED IMPORT
 import { useRouter } from "next/navigation";
 
 export default function SignIn() {
@@ -10,12 +10,12 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Sign-in failed:", error);
       alert(error.message);
     }
@@ -57,4 +57,3 @@ export default function SignIn() {
     </div>
   );
 }
-
